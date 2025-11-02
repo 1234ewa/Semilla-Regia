@@ -53,4 +53,16 @@ npx serve -l 8080 .
   - Contrato de almacenamiento: registra y referencia los metadatos/archivos asociados a solicitudes y estados de los préstamos.
 - Las direcciones de los contratos y la red se configuran en `principal/js/config.js`.
 
+#### Estructura de carpetas de contratos
+```
+contratos/
+  pagos/
+    src/
+      lib.rs        # lógica de pagos (placeholder)
+  archivos/
+    src/
+      lib(1).rs     # lógica de almacenamiento (placeholder)
+```
+Nota: se incluye `.gitattributes` para asegurar que GitHub compute Rust en el porcentaje de lenguajes.
+
 
