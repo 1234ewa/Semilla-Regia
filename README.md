@@ -47,3 +47,10 @@ npx serve -l 8080 .
 - Error al leer proveedor: sirve la app con un servidor local (python/http-server) en lugar de abrir el archivo directamente.
 
 
+### Contratos en Arbitrum Stylus
+- La dApp utiliza dos contratos desplegados en Arbitrum Stylus:
+  - Contrato de pagos: gestiona los flujos de pago y liquidaciones entre inversionistas y emprendedores.
+  - Contrato de almacenamiento: registra y referencia los metadatos/archivos asociados a solicitudes y estados de los préstamos.
+- Las direcciones de los contratos y la red se configuran en `principal/js/config.js`.
+
+
