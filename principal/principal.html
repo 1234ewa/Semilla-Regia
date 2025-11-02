@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE - Sistema de Préstamos Descentralizados</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <div class="banner-content">
+            <span class="banner-icon">✨</span>
+            <span class="banner-text">Conecta todas tus transacciones, documentos, personas y conocimiento con SSE Brain</span>
+            <button class="banner-close" aria-label="Cerrar banner">✕</button>
+        </div>
+    </div>
+
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-text">SEMILLA REGÍA</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="wallet-btn" id="walletBtn">
+                    <span class="wallet-icon">🔗</span>
+                    <span class="wallet-text">Conectar wallet</span>
+                </button>
+                <button class="wallet-btn" id="logoutBtn">
+                    <span class="wallet-icon">🔒</span>
+                    <span class="wallet-text">Cerrar sesión</span>
+                </button>
+
+                <!-- NUEVO: estado de conexión (no altera el diseño principal) -->
+                <div id="statusMessage" aria-live="polite" style="margin-left:12px;font-size:12px;opacity:.8;"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">Hazlo posible, nosotros te respaldamos.</h1>
+            <p class="hero-subtitle">Sistema de préstamos descentralizados con criptomonedas</p>
+            <div class="hero-buttons">
+                <button class="btn-hero btn-solicitar">
+                    SOLICITAR PRESTAMO
+                </button>
+                <button class="btn-hero btn-financiar">
+                    FINANCIAR PROYECTO
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">$100M</div>
+                    <div class="stat-label">USD</div>
+                    <div class="stat-title">Loan Volume</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$200M</div>
+                    <div class="stat-label">USD</div>
+                    <div class="stat-title">TVL</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">+3,000</div>
+                    <div class="stat-label">Loans</div>
+                    <div class="stat-title">Originated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">40%</div>
+                    <div class="stat-label">Loans</div>
+                    <div class="stat-title">Refinance Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Solicitar Préstamo -->
+    <div class="modal-overlay" id="modalPrestamo">
+        <div class="modal-container modal-prestamo">
+            <div class="modal-header">
+                <h2 class="modal-title">Solicitar Préstamo</h2>
+                <button class="modal-close" id="closeModal">✕</button>
+            </div>
+            
+            <form class="prestamo-form" id="loanForm">
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="walletAddress">Wallet del solicitante</label>
+                    <input type="text" class="form-input" id="walletAddress" value="0x5728db90889ac3d5fd0a41286ca2480abcefe2a0" readonly disabled>
+                </div>
+
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="amount">Monto de préstamo</label>
+                    <input type="text" class="form-input" id="amount" value="$100 USD" readonly disabled>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: #666; font-style: italic;">💡 Conforme demuestres ser un buen pagador, tendrás acceso a montos más altos.</p>
+                </div>
+
+                <!-- Resumen de intereses y total a pagar -->
+                <div class="form-group-prestamo">
+                    <div class="interest-summary" id="interestSummary" style="display:flex;flex-direction:column;gap:6px;background:#fff7f2;border:1px solid #ffd6bf;padding:12px;border-radius:10px;">
+                        <div style="display:flex;justify-content:space-between;font-size:14px;color:#555;">
+                            <span>Interés</span>
+                            <span id="interestPercent">5%</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-weight:700;color:#ff6b35;">
+                            <span>Total a pagar</span>
+                            <span id="totalWithInterest">$105.00 USD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plazos de pago -->
+                <div class="form-group-prestamo">
+                    <div class="interest-summary" style="display:flex;flex-direction:column;gap:8px;background:#f8fbff;border:1px solid #cfe4ff;padding:12px;border-radius:10px;">
+                        <div style="font-size:14px;color:#555;font-weight:600;">Plazos de pago</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#2D3436;">
+                            <span>Pago 1 (15 días)</span>
+                            <span id="installment1Amt" style="font-weight:700;">$57.50 USD</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#2D3436;">
+                            <span>Pago 2 (30 días)</span>
+                            <span id="installment2Amt" style="font-weight:700;">$57.50 USD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="scanId">Escanear ID</label>
+                    <input type="file" class="form-input" id="scanId" accept="image/*,application/pdf">
+                    <div class="upload-status" id="scanIdStatus" style="margin-top:6px;font-size:.875rem;color:#666;"></div>
+                </div>
+
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="scanIdPadre">Subir ticket de pago de luz o renta</label>
+                    <input type="file" class="form-input" id="scanIdPadre" accept="image/*,application/pdf">
+                    <div class="upload-status" id="scanIdPadreStatus" style="margin-top:6px;font-size:.875rem;color:#666;"></div>
+                </div>
+
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="scanIdMadre">Subir ticket de pago de tenencia o ticket de compra de mercancia</label>
+                    <input type="file" class="form-input" id="scanIdMadre" accept="image/*,application/pdf">
+                    <div class="upload-status" id="scanIdMadreStatus" style="margin-top:6px;font-size:.875rem;color:#666;"></div>
+                </div>
+
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="businessPhoto">Foto del negocio o emprendimiento (si es en casa, foto de la fachada)</label>
+                    <input type="file" class="form-input" id="businessPhoto" accept="image/*">
+                    <div class="upload-status" id="businessPhotoStatus" style="margin-top:6px;font-size:.875rem;color:#666;"></div>
+                </div>
+
+                <div class="form-group-prestamo">
+                    <label class="form-label" for="businessDescription">Describe tu microempresa</label>
+                    <textarea class="form-input" id="businessDescription" rows="3" placeholder="¿A qué te dedicas? ¿Para qué usarás el préstamo?"></textarea>
+                </div>
+
+                <p class="form-hint">La solicitud se guardará localmente para que un fondeador la vea en "Financiar proyecto".</p>
+
+                <button type="submit" class="btn-continue" id="requestLoanBtn">Solicitar préstamo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Financiar Proyecto -->
+    <div class="modal-overlay" id="modalFinanciar">
+        <div class="modal-container modal-proyectos">
+            <div class="modal-header">
+                <h2 class="modal-title">Proyectos Disponibles</h2>
+                <button class="modal-close" id="closeModalFinanciar">✕</button>
+            </div>
+            
+            <div class="proyectos-lista" id="proyectosLista">
+                <!-- Los proyectos se cargarán dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de blockchain (orden exacto) -->
+    <!-- 1) Ethers (expone window.ethers) - VERSIÓN UMD para garantizar exposición global -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+
+    <!-- 2) Esperar a que ethers esté disponible antes de continuar -->
+    <script>
+      if (typeof window.ethers === 'undefined') {
+        console.error('Error: ethers.js no se cargó correctamente. Verifica tu conexión a Internet.');
+      }
+    </script>
+
+    <!-- 3) Config y ABI (definen window.CONTRACT_CONFIG y window.CONTRACT_ABI) -->
+    <script src="js/config.js"></script>
+    <script src="js/abi.js"></script>
+
+    <!-- 4) Conector (define window.walletConnector) -->
+    <script src="js/wallet-connect.js"></script>
+
+    <!-- 4) Lógica de UI (usa lo anterior) -->
+    <script src="js/main.js" defer></script>
+</body>
+</html>
