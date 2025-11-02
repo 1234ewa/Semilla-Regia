@@ -2,6 +2,10 @@
 
 Semilla Regia es una plataforma digital que impulsa el crecimiento de microempresas mediante préstamos descentralizados. Conecta a emprendedores que necesitan financiamiento con inversionistas que buscan apoyar proyectos reales, utilizando tecnología blockchain para garantizar transparencia, seguridad y beneficios en tokens.
 
+### VIDEO DEMO
+
+https://www.youtube.com/shorts/Rl5jUYfT_AY
+
 ### ¿Cómo correr el sitio?
 
 Requisitos mínimos:
